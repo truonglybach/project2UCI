@@ -63,18 +63,28 @@
     
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Plot 2</h3>
+        <h3 class="panel-title">Number of Deaths from Tobacco Smoking over a Period of 26 Years(per Country/Region)</h3>
       </div>
       <div class="panel-body" id="lineChart">
+        <h5>Select Entity:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Plot 3</h3>
+      </div>
+      <div class="panel-body" id="plot3">
       </div>
     </div>
-    
-    <div id="plot3">
-      <!--vis3-->
-    </div>
-    
-    <div id="plot4">
-      <!--vis4-->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a href="http://localhost:5000/costoftobacco" target="_blank"><u>In-depth analysis of the cost per pack of cigarettes varying by country/region.</u></a>
+        </div>
+      </div>
     </div>
 
     <hr>

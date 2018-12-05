@@ -14,6 +14,17 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
+// Filter JSON based on entity/country
+function filterbyEntity(JSON, val) {
+    var filteredData = [];
+    JSON.forEach(function(data) {
+        if (data.Entity === val) {
+            filteredData.push(data);
+        }
+    });
+    return filteredData;
+}
+
 // Set height and width of SVGs
 var svgWidth = 1000;
 var svgHeight = 500;
@@ -42,16 +53,19 @@ var lineChartSVG = d3.select("#lineChart")
     .attr("width", svgWidth + 40)
     .attr("height", svgHeight);
 
-
 // Add an SVG group to each chart
 var barChartGroup = barChartSVG.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 var lineChartGroup = lineChartSVG.append("g")
-    .attr("transform", `translate(${margin.left + 24}, ${margin.top})`);
+    .attr("transform", `translate(${margin.left + 30}, ${margin.top})`);
 
 const barLink = "http://127.0.0.1:5000/collections/avgpricepack";
 const lineLink = "http://127.0.0.1:5000/collections/numdeathstobaccosmoking";
+const pieLink = "http://127.0.0.1:5000/collections/consumepersmokerperday";
+
+// Time parser for d3
+var parseTime = d3.timeParse("%Y");
 
 d3.json(barLink, function(error, barJSON) {
     if (error) throw error;
@@ -77,6 +91,8 @@ d3.json(barLink, function(error, barJSON) {
     var bottomAxis = d3.axisBottom(xScaleD);
     var leftAxis = d3.axisLeft(yScaleD);
 
+    lineChartGroup.html("")
+
     var xAxis = barChartGroup.append("g")
         .classed("x-axis", true)
         .attr("transform", `translate(0, ${height})`)
@@ -98,7 +114,7 @@ d3.json(barLink, function(error, barJSON) {
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .style("fill", "#960A24")
+        .style("fill", "orange")
         .attr("x", d => xScaleD(d.e))
         .attr("y", d => yScaleD(d.o))
         .attr("width", xScaleD.bandwidth())
@@ -122,95 +138,109 @@ d3.json(barLink, function(error, barJSON) {
 
 })
 
-var parseTime = d3.timeParse("%Y");
+function lineChartMaker(countryName) {
 
-d3.json(lineLink, function(error, lineJSON) {
-    if (error) throw error;
+    d3.json(lineLink, function(error, lineJSON) {
+        if (error) throw error;
 
-    var yearArr = []
-    var smokeCountArr = []
-    var entityArr = []
+        var yearArr = [];
+        var smokeCountArr = [];
+        var entityArr = [];
 
-    lineJSON.forEach(function(data) {
-        entityArr.push(data.Entity);
+        lineJSON.forEach(function(data) {
+            entityArr.push(data.Entity);
 
-        data.Year = parseTime(data.Year);
-        yearArr.push(data.Year);
+            data.Year = parseTime(data.Year);
+            yearArr.push(data.Year);
 
-        data.smokeCount = +data.smokeCount;
-        smokeCountArr.push(+data.smokeCount);
+            data.smokeCount = +data.smokeCount;
+            smokeCountArr.push(+data.smokeCount);
+        })
+
+        // var uniqueEntities = entityArr.filter(onlyUnique);
+        // var uniqueYears = yearArr.filter(onlyUnique);
+
+        // var countryName = uniqueEntities[i];
+        var countryData = filterbyEntity(lineJSON, countryName);
+        // var countryYears = []
+        // var countrySC = []
+
+        // countryData.forEach(function(data) {
+        //     countryYears.push(data.Year);
+        //     countrySC.push(data.smokeCount);
+        // })
+
+        var xTimeScale = d3.scaleTime()
+            .range([0, width])
+            .domain(d3.extent(countryData, d => d.Year));
+            
+        var yLinearScale = d3.scaleLinear()
+            .range([height, 0])
+            .domain([0, d3.max(countryData, d => d.smokeCount)]);
+
+        var bottomAxis = d3.axisBottom(xTimeScale);
+        var leftAxis = d3.axisLeft(yLinearScale);
+
+        lineChartGroup.html("")
+
+        // !!!drawLine function not working!!!
+        var drawLine = d3
+            .line()
+            .x(d => xTimeScale(d.Year))
+            .y(d => yLinearScale(d.smokeCount));
+
+        lineChartGroup.append("path")
+            .attr("d", drawLine(countryData))
+            .classed("line", true);
+
+        lineChartGroup.append("g")
+            .classed("axis", true)
+            .call(leftAxis);
+
+        lineChartGroup.append("g")
+            .classed("axis", true)
+            .attr("transform", `translate(0, ${height})`)
+            .call(bottomAxis);
+
+        // var objData = JSONify(yearArr, smokeCountArr);
+
+    // CONTINUE HERE TO APPEND
     })
-
-// Filter JSON based on entity/country
-
-function filterbyEntity(JSON, val) {
-    var filteredData = [];
-    JSON.forEach(function(data) {
-        if (data.Entity === val) {
-            filteredData.push(data);
-        }
-    });
-    return filteredData;
 }
 
-var uniqueEntities = entityArr.filter(onlyUnique);
-var uniqueYears = yearArr.filter(onlyUnique);
+function init() {
+    d3.json(lineLink, function(error, JSON) {
+        if (error) throw error;
 
-for (i=0; i<uniqueEntities.length; i++) {
-    var countryName = uniqueEntities[i];
-    var countryData = filterbyEntity(lineJSON, uniqueEntities[i]);
-    // var countryYears = []
-    // var countrySC = []
+        var entityArr = [];
 
-    // countryData.forEach(function(data) {
-    //     countryYears.push(data.Year);
-    //     countrySC.push(data.smokeCount);
-    // })
+        JSON.forEach(function(data) {
+            entityArr.push(data.Entity);
+        })
 
-    var xTimeScale = d3.scaleTime()
-        .domain(d3.extent(countryData, data => data.Year))
-        .range([0, width]);
+        var uniqueEntities = entityArr.filter(onlyUnique);
 
-    var yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(countryData, data => data.smokeCount)])
-        .range([height, 0]);
+        var selector = d3.select("#selDataset");
+        
+        var initEnt = uniqueEntities[0];
 
-    var bottomAxis = d3.axisBottom(xTimeScale);
-    var leftAxis = d3.axisLeft(yLinearScale);
+        uniqueEntities.forEach((Ent) => {
+            selector.append("option")
+            .text(Ent)
+            .property("value", Ent)
+        })
 
-    // !!!drawLine function not working!!!
-    var drawLine = d3.line()
-        .x(d => xTimeScale(d.Year))
-        .y(d => yLinearScale(d.smokeCount))
-
-    // lineChartGroup.append("path")
-    //     .attr("d", drawLine)
-    //     .classed("line", true);
-
-    // lineChartGroup.append("g")
-    //     .classed("axis", true)
-    //     .call(leftAxis);
-
-    // lineChartGroup.append("g")
-    //     .classed("axis", true)
-    //     .attr("transform", `translate(0, ${height})`)
-    //     .call(bottomAxis);
-
-
+        lineChartMaker(initEnt);
+    })
 }
 
-
-
-
-
-    // var objData = JSONify(yearArr, smokeCountArr);
-
-// CONTINUE HERE TO APPEND
-
-
-})
-
+function optionChanged(newEnt) {
+    lineChartMaker(newEnt);
+}
 
 // Add user interaction by having a text box/option thing where 
 // they can choose country to filter by and create line chart from
+
+init();
+
 

@@ -1,7 +1,5 @@
 import pymongo
 from flask import Flask, jsonify, render_template
-import pandas as pd
-import json
 
 app = Flask(__name__)
 conn = "mongodb://localhost:27017"
@@ -19,7 +17,7 @@ def welcome():
     html = html + '<html lang="en-us">																																								  '
     html = html + '<head>																																											  '
     html = html + '  <meta charset="UTF-8">																																							  '
-    html = html + '    <title>Smoking Mortality API</title>																																				  '
+    html = html + '    <title>Smoking Hot Data</title>																																				  '
     html = html + '    <style type="text/css">																																						  '
     html = html + '            p {																																									  '
     html = html + '                font-size: 20px;																																					  '
@@ -50,10 +48,10 @@ def welcome():
     html = html + '                }																																								  '
     html = html + '    </style>																																										  '
     html = html + '</head>																																											  '
-    html = html + '<body background="https://www.aidsmap.com/v636227698080200000/file/1213214/Smoking.png">																																			  '
-    html = html + '<h1>Smoking Mortality Rate Project and API</h1>																																		  '
-    html = html + '<h3>Welcome to our Smoking Data Analysis Depot</h3>																																	  '
-    html = html + '<img class="shadow" src="https://www.spineuniverse.com/sites/default/files/imagecache/gallery-large/wysiwyg_imageupload/3998/2017/10/10/cigarettes_stacked_-1642232_1920.jpg" height="100" width="200"/>																										  '
+    html = html + '<body background="https://www.aidsmap.com/v636227698080200000/file/1213214/Smoking.png" alt="An image with a lit cigarette that is crossed out.">																																			  '
+    html = html + '<h1>Smoking Data Project</h1>																																		  '
+    html = html + '<h3>Welcome to our Smoking Data Depot</h3>																																	  '
+    html = html + '<img class="shadow" src="https://www.spineuniverse.com/sites/default/files/imagecache/gallery-large/wysiwyg_imageupload/3998/2017/10/10/cigarettes_stacked_-1642232_1920.jpg" height="100" width="200" alt="Cigarettes that are stacked upon one another."/>																										  '
     html = html + '<section>																																										  '
     html = html + '    <div id="7" width="200"><p class="border1 whiteback shadow">Available Routes</p></div>																						  '
     html = html + '	<ul class="shadow">																																								  '
@@ -67,7 +65,6 @@ def welcome():
     html = html + '        <li><a href="http://localhost:5000/collections/consumepersmokerperdaybounds" target="_blank">consumption-per-smoker-per-day-bounds</a></li>                          '
     html = html + '        <li><a href="http://localhost:5000/collections/dailysmokingprevbounds" target="_blank">daily-smoking-prevalence-bounds</a></li>                                      '
     html = html + '        <li><a href="http://localhost:5000/collections/enforcebanstobacad" target="_blank">enforcement-of-bans-on-tobacco-advertising</a></li>                               '
-    html = html + '        <li><a href="http://localhost:5000/collections/healthyagingdata" target="_blank">Healthy_Aging_Data</a></li>                                                         '
     html = html + '        <li><a href="http://localhost:5000/collections/numdeathssecondhand" target="_blank">number-of-deaths-from-secondhand-smoke</a></li>                                  '
     html = html + '        <li><a href="http://localhost:5000/collections/numdeathstobaccosmoking" target="_blank">number-of-deaths-from-tobacco-smoking</a></li>                               '
     html = html + '        <li><a href="http://localhost:5000/collections/numtotaldailysmokers" target="_blank">number-of-total-daily-smokers</a></li>                                          '
@@ -208,86 +205,6 @@ def maingate():
     tablenames = sorted(tablenames)
     objcoll = {"CollectionName": tablenames}
     return jsonify(objcoll)
-
-
-@app.route("/costoftobacco")
-def costoftobacco():
- 
-
-    #2012 TOP 25-------------->
-    df1 = pd.read_csv('data/vappc_2012_top25.csv').drop('Code', axis=1)
-    chart_data_2012_top25 = df1.to_dict(orient='records')
-    chart_data_2012_top25 = json.dumps(chart_data_2012_top25, indent=2)
-    data_2012_top25 = {'chart_data_2012_top25': chart_data_2012_top25}
-    
-    #2012 TOP 10--------------->
-    df2 = pd.read_csv('data/vappc_2012_top10.csv').drop('Code', axis=1)
-    chart_data_2012_top10 = df2.to_dict(orient='records')
-    chart_data_2012_top10 = json.dumps(chart_data_2012_top10, indent=2)
-    data_2012_top10 = {'chart_data_2012_top10': chart_data_2012_top10}
-
-    #2012 BOTTOM 25------------>
-    df3 = pd.read_csv('data/vappc_2012_bottom25.csv').drop('Code', axis=1)
-    chart_data_2012_bot25 = df3.to_dict(orient='records')
-    chart_data_2012_bot25 = json.dumps(chart_data_2012_bot25, indent=2)
-    data_2012_bot25 = {'chart_data_2012_bot25': chart_data_2012_bot25}
-    
-    #2012 BOTTOM 10------------>
-    df4 = pd.read_csv('data/vappc_2012_bottom10.csv').drop('Code', axis=1)
-    chart_data_2012_bot10 = df4.to_dict(orient='records')
-    chart_data_2012_bot10 = json.dumps(chart_data_2012_bot10, indent=2)
-    data_2012_bot10 = {'chart_data_2012_bot10': chart_data_2012_bot10}    
-   
-
-    #2012 ALL-------------->
-    df2012 = pd.read_csv('data/vappc_2012.csv').drop('Code', axis=1)
-    chart_data2012 = df2012.to_dict(orient='records')
-    chart_data2012 = json.dumps(chart_data2012, indent=2)
-    data2012 = {'chart_data2012': chart_data2012}
-    
-    
-    
-    #2014 TOP 25-------------->
-    df1 = pd.read_csv('data/vappc_2014_top25.csv').drop('Code', axis=1)
-    chart_data_2014_top25 = df1.to_dict(orient='records')
-    chart_data_2014_top25 = json.dumps(chart_data_2014_top25, indent=2)
-    data_2014_top25 = {'chart_data_2014_top25': chart_data_2014_top25}
-    
-    #2014 TOP 10--------------->
-    df2 = pd.read_csv('data/vappc_2014_top10.csv').drop('Code', axis=1)
-    chart_data_2014_top10 = df2.to_dict(orient='records')
-    chart_data_2014_top10 = json.dumps(chart_data_2014_top10, indent=2)
-    data_2014_top10 = {'chart_data_2014_top10': chart_data_2014_top10}
-
-    #2014 BOTTOM 25------------>
-    df3 = pd.read_csv('data/vappc_2014_bottom25.csv').drop('Code', axis=1)
-    chart_data_2014_bot25 = df3.to_dict(orient='records')
-    chart_data_2014_bot25 = json.dumps(chart_data_2014_bot25, indent=2)
-    data_2014_bot25 = {'chart_data_2014_bot25': chart_data_2014_bot25}
-    
-    #2014 BOTTOM 10------------>
-    df4 = pd.read_csv('data/vappc_2014_bottom10.csv').drop('Code', axis=1)
-    chart_data_2014_bot10 = df4.to_dict(orient='records')
-    chart_data_2014_bot10 = json.dumps(chart_data_2014_bot10, indent=2)
-    data_2014_bot10 = {'chart_data_2014_bot10': chart_data_2014_bot10}    
-    
-    
-    #2014 ALL-------------->
-    df2014 = pd.read_csv('data/vappc_2014.csv').drop('Code', axis=1)
-    chart_data2014 = df2014.to_dict(orient='records')
-    chart_data2014 = json.dumps(chart_data2014, indent=2)
-    data2014 = {'chart_data2014': chart_data2014}
-    
-
-    return render_template("costoftobacco.html"
-                           , dataone=data_2012_top25, datatwo=data_2012_top10
-                           , datathree=data_2012_bot25, datafour=data_2012_bot10
-                           , datatwelve=data2012                           
-                           , datafive=data_2014_top25, datasix=data_2014_top10
-                           , dataseven=data_2014_bot25, dataeight=data_2014_bot10
-                           , datafourteen=data2014)
-    #return data
-
 
 if __name__ == "__main__":
   app.run()
