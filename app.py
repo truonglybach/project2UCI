@@ -67,7 +67,6 @@ def welcome():
     html = html + '        <li><a href="http://localhost:5000/collections/consumepersmokerperdaybounds" target="_blank">consumption-per-smoker-per-day-bounds</a></li>                          '
     html = html + '        <li><a href="http://localhost:5000/collections/dailysmokingprevbounds" target="_blank">daily-smoking-prevalence-bounds</a></li>                                      '
     html = html + '        <li><a href="http://localhost:5000/collections/enforcebanstobacad" target="_blank">enforcement-of-bans-on-tobacco-advertising</a></li>                               '
-    html = html + '        <li><a href="http://localhost:5000/collections/healthyagingdata" target="_blank">Healthy_Aging_Data</a></li>                                                         '
     html = html + '        <li><a href="http://localhost:5000/collections/numdeathssecondhand" target="_blank">number-of-deaths-from-secondhand-smoke</a></li>                                  '
     html = html + '        <li><a href="http://localhost:5000/collections/numdeathstobaccosmoking" target="_blank">number-of-deaths-from-tobacco-smoking</a></li>                               '
     html = html + '        <li><a href="http://localhost:5000/collections/numtotaldailysmokers" target="_blank">number-of-total-daily-smokers</a></li>                                          '
