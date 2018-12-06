@@ -1,18 +1,27 @@
+# Import dependencies
 import pymongo
 from flask import Flask, jsonify, render_template
 import pandas as pd
 import json
 
+# Create Flask app
 app = Flask(__name__)
+
+# Store Mongo Server ID in string
 conn = "mongodb://localhost:27017"
 
+# Connect to Mongo server
 client = pymongo.MongoClient(conn)
+
+# Store db in a var
 db = client.smoking
 
+# Creates index page
 @app.route("/")
 def index():
   return render_template("index.html")
 
+# Creates page where it lists links to all other endpoints regarding smoking data
 @app.route("/data")
 def welcome():
     html =        '<!DOCTYPE html>																																									  '
@@ -89,9 +98,7 @@ def welcome():
 
     return html
 
-
-
-
+# Smoking data endpoints
 @app.route("/collections/avgpricepack")
 def avgpricepack_json():
   avgpricepack = list(db.avgpricepack.find({}, {'_id': False}))
@@ -197,6 +204,7 @@ def taxsharecigprice():
   taxsharecigprice = list(db.taxsharecigprice.find({}, {'_id': False}))
   return jsonify(taxsharecigprice)
 
+# Pushes list of the names of all collections in DB
 @app.route("/frontgate/")
 def maingate():
     tablenames = []
@@ -208,7 +216,7 @@ def maingate():
     objcoll = {"CollectionName": tablenames}
     return jsonify(objcoll)
 
-
+# Creates page that shows Taucharts
 @app.route("/costoftobacco")
 def costoftobacco():
  
