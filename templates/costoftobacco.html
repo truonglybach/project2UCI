@@ -54,7 +54,6 @@
     barchart.renderTo('#' + rendertoname);
     }
 
-
     function makescatterchart(rendertoname, data) {
         var chart = new Taucharts.Chart({
         data: data,
@@ -72,7 +71,6 @@
     });
     chart.renderTo('#' + rendertoname);
     }
-
 
       function fixdivs() 
       {
@@ -167,8 +165,6 @@
     var fourteenGraphDataBot25 = {{ dataseven.chart_data_2014_bot25 | safe }};
     var fourteenGraphDataBot10 = {{ dataeight.chart_data_2014_bot10 | safe }};
     var barmaster14 = {{ datafourteen.chart_data2014 | safe }};
-
-
 </script>
 
 <p style="color:blue; text-align:center; margin-bottom:30px; border-bottom:1px solid white; padding-bottom:10px;">
@@ -197,7 +193,7 @@
 
 <div class="container">
         <div class="jumbotron text-center" style="width: 100%;background-image: url('https://spunout.ie/images/made/images/articles/shutterstock_40508932_800_440_80_c1.jpg')">
-            <h3> Smoking Smoking Smoking </h3>
+            <h3 style="color: white;">Smoking Smoking Smoking</h3>
         </div>
         <select name="name" id="cboOptions" onchange="showDiv('div',this);" class="form-control" >
                 <option value="0" style="text-align: center">Make a selection</option>
