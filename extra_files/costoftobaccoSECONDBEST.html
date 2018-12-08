@@ -15,7 +15,7 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-  <script >
+  <script>
           
           
     function makebarchart(rendertoname, data) {
@@ -54,7 +54,6 @@
     barchart.renderTo('#' + rendertoname);
     }
 
-
     function makescatterchart(rendertoname, data) {
         var chart = new Taucharts.Chart({
         data: data,
@@ -72,7 +71,6 @@
     });
     chart.renderTo('#' + rendertoname);
     }
-
 
       function fixdivs() 
       {
@@ -167,8 +165,6 @@
     var fourteenGraphDataBot25 = {{ dataseven.chart_data_2014_bot25 | safe }};
     var fourteenGraphDataBot10 = {{ dataeight.chart_data_2014_bot10 | safe }};
     var barmaster14 = {{ datafourteen.chart_data2014 | safe }};
-
-
 </script>
 
 <p style="color:blue; text-align:center; margin-bottom:30px; border-bottom:1px solid white; padding-bottom:10px;">
@@ -195,9 +191,9 @@
 </p>
 
 
-<div class="container" >
+<div class="container">
         <div class="jumbotron text-center" style="width: 100%;background-image: url('https://spunout.ie/images/made/images/articles/shutterstock_40508932_800_440_80_c1.jpg')">
-            <h3> Smoking Smoking Smoking </h3>
+            <h3 style="color: white;">Smoking Smoking Smoking</h3>
         </div>
         <select name="name" id="cboOptions" onchange="showDiv('div',this);" class="form-control" >
                 <option value="0" style="text-align: center">Make a selection</option>
@@ -207,50 +203,18 @@
 </div>
  
 <div id="div0" style="display:block;">
-    <div class="container" >
-        <div class="row" >
-            
-                <h2 class="text-center">Tobacco Related Spending from 2012 and 2014</h2>
-    
-                <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title text-center">FACT: In 2016, tobacco companies spent $9.5 billion marketing cigarettes and smokeless tobacco in the United States. This amount translates to about $26 million each day, or more than $1 million every hour.</span><sup>1</sup></h3>
-                                </div>
-                                <div class="panel-body">
-                                    <ul>
-                                        <li>Cigarette advertising and promotional expenses totaled approximately $8.7 billion in 2016—an increase from $8.3 billion during 2015. In 2016, about 66.7% (about $5.8 billion) of this was spent on price discounts paid to cigarette retailers to reduce the cost of cigarettes to consumers.<sup>1</sup></li>
-                                        <li>Manufacturers spent a total of $759.3 million on smokeless tobacco advertising and promotion during 2016—an increase from $684.9 million in 2015.<sup>2</sup></li>
-                                        <li>A number of electronic products, such as electronic cigarettes (e-cigarettes), electronic cigars (e-cigars), and electronic pipes (e-pipes), are being introduced in the marketplace. However, current information on spending for marketing and promotion of these products is currently not available.</li>
-                                        <li>Sales of e-cigarettes grew considerably during 2011–2015. During 2014-2015 alone, unit sales for e-cigarettes grew 14.4% overall. During this period, unit sales of disposable e-cigarettes declined 42.7%, unit sales of rechargeable e-cigarettes increased 5.3%, unit sales of e-cigarette liquid refills increased 307.7%, and unit sales of prefilled e-cigarette cartridges increased 31.6%. <sup>3</sup></li>
-                                    </ul>
-                                    <br><br><br>
-                                    <p>
-                                    <sup>1</sup>-Source: https://www.cdc.gov/tobacco/data_statistics/fact_sheets/economics/econ_facts/index.htm
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-    
-                <hr>
-    
-            
-        </div>
-    </div>  
+    <h2 class="text-center">Tobacco Related Spending from 2012 and 2014</h2>
+        <p><span class="emphasis"><b>FACT: In 2016, tobacco companies spent $9.5 billion marketing cigarettes and smokeless tobacco in the United States. This amount translates to about $26 million each day, or more than $1 million every hour.</span><sup>1</sup>
+        -Source: https://www.cdc.gov/tobacco/data_statistics/fact_sheets/economics/econ_facts/index.htm</b></p>
+    <ul>
+        <li>Cigarette advertising and promotional expenses totaled approximately $8.7 billion in 2016—an increase from $8.3 billion during 2015. In 2016, about 66.7% (about $5.8 billion) of this was spent on price discounts paid to cigarette retailers to reduce the cost of cigarettes to consumers.<sup>1</sup></li>
+        <li>Manufacturers spent a total of $759.3 million on smokeless tobacco advertising and promotion during 2016—an increase from $684.9 million in 2015.<sup>2</sup></li>
+        <li>A number of electronic products, such as electronic cigarettes (e-cigarettes), electronic cigars (e-cigars), and electronic pipes (e-pipes), are being introduced in the marketplace. However, current information on spending for marketing and promotion of these products is currently not available.</li>
+        <li>Sales of e-cigarettes grew considerably during 2011–2015. During 2014-2015 alone, unit sales for e-cigarettes grew 14.4% overall. During this period, unit sales of disposable e-cigarettes declined 42.7%, unit sales of rechargeable e-cigarettes increased 5.3%, unit sales of e-cigarette liquid refills increased 307.7%, and unit sales of prefilled e-cigarette cartridges increased 31.6%. <sup>3</sup></li>
+    </ul>
 </div>
-
-
-
-
-
-
-
-
-
  
-<div class="container" >
+<div class="container">
     <div class="row" >
         <div id="div1" style="display:none;">
             <h2 class="text-center">Average Cost of Smoking in 2012: Price per pack of cigarettes.</h2>
