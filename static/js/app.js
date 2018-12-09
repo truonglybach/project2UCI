@@ -67,6 +67,7 @@ const lineLink = "http://127.0.0.1:5000/collections/numdeathstobaccosmoking";
 // Time parser for d3
 var parseTime = d3.timeParse("%Y");
 
+// Pull from link to get bar data
 d3.json(barLink, function(error, barJSON) {
     if (error) throw error;
 
@@ -112,7 +113,7 @@ d3.json(barLink, function(error, barJSON) {
         .call(leftAxis);
 
     // Stores the JSONified version of two arrays in a var
-    var objDJSON = JSONify(entityArr, cigPricesArr)
+    var objDJSON = JSONify(entityArr, cigPricesArr);
 
     // Creates the bar chart
     var barChart = barChartGroup.selectAll(".bar")
@@ -150,36 +151,50 @@ d3.json(barLink, function(error, barJSON) {
 // Function that creates line chart
 function lineChartMaker(countryName) {
 
+    // Pull from link to get line data
     d3.json(lineLink, function(error, lineJSON) {
         if (error) throw error;
 
         // Stores the filtered JSON (by country/region) into a var
         var countryData = filterbyEntity(lineJSON, countryName);
-    
+
+        // Create two arrays to hold the filtered data
+        var yearArr = [];
+        var scArr = [];
+
+        // Filter and parse the necessary data
+        countryData.forEach(function(data) {
+        	yearArr.push(parseTime(data.Year));
+        	scArr.push(data.smokeCount);
+        })
+
+        // JSONify the two arrays
+        var scyrJSON = JSONify(yearArr, scArr);
+
         // Creates the appropriate scales for the data provided
         var xTimeScale = d3.scaleTime()
             .range([0, width])
-            .domain(d3.extent(countryData, d => d.Year));
+            .domain(d3.extent(scyrJSON, d => d.e));
         var yLinearScale = d3.scaleLinear()
             .range([height, 0])
-            .domain([0, d3.max(countryData, d => d.smokeCount)]);
+            .domain([0, d3.max(scyrJSON, d => d.o)]);
 
         // Creates the axes for which the plots
         var bottomAxis = d3.axisBottom(xTimeScale);
         var leftAxis = d3.axisLeft(yLinearScale);
 
         // Clears the line chart when a new option is chosen
-        lineChartGroup.html("")
+        lineChartGroup.html("");
 
         // Creates a map to draw a line based on the data
         var drawLine = d3
             .line()
-            .x(d => xTimeScale(d.Year))
-            .y(d => yLinearScale(d.smokeCount));
+            .x(d => xTimeScale(d.e))
+            .y(d => yLinearScale(d.o));
 
         // Appends a line to the svg
         lineChartGroup.append("path")
-            .attr("d", drawLine(countryData))
+            .attr("d", drawLine(scyrJSON))
             .classed("line", true);
 
         // Appends the left axis
@@ -192,17 +207,18 @@ function lineChartMaker(countryName) {
             .classed("axis", true)
             .attr("transform", `translate(0, ${height})`)
             .call(bottomAxis);
-
     })
 }
 
 // Function that initializes the line chart
 function init() {
+    
+    // Pull from link to get line data
     d3.json(lineLink, function(error, JSON) {
         if (error) throw error;
 
         // Creates an array based on the countries/regions in JSON
-        var entityArr = JSON.map((d) => d.Entity)
+        var entityArr = JSON.map((d) => d.Entity);
 
         // Removes duplicates
         var uniqueEntities = entityArr.filter(onlyUnique);
